@@ -82,15 +82,15 @@ parser.add_argument('--lens',type=str, action='store', dest='lens', default=None
                      help='Name of augeas lens to use')
 parser.add_argument('filename',type=str, action='store', nargs='?', default='/etc/hosts',
                     help='file to process')
-parser.add_argument('--plus','-p', action='store_const', const=True, default=False,
-                    help='Generate expressions .../+[expr] for numbered nodes')
+parser.add_argument('--seq','-s', action='store', dest='seq', default='y',
+                    help='Generate expressions .../seq::*[expr] for numbered nodes Y/n')
 
 args = parser.parse_args()
 
 # Choose the wildcard operator for numbered nodes - important because '+' is idempotent if available
 numwild = '*'
-if args.plus:
-    numwild = '+'
+if not ( args.seq.lower() == 'n' or args.seq.lower() == 'no'):
+    numwild = 'seq::*'
 
 print_debug(args)
 
