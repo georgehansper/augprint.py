@@ -209,6 +209,14 @@ print("load-file %s" % (filename))
 
 
 class pathClass:
+    # This re will is used to split a path:
+    # /some/path/label[1]/morepath/5/tail
+    # into an array:
+    # ['/some/path/', 'label', '1', None, '/morepath/', None, None, '5', '/tail']
+    # ie. both label[1] and 5 generate 3x list-elements each
+    # (?<=/)   "look-before" ie. expression must be preceeded by '/'
+    # (?=/)    "look-ahead"  ie. expression mush be followed by '/'
+    # (?:text) like ( ) but don't consume or capture text
     split_re = re.compile('(?<=/)(?:([-0-9a-zA-Z_#]+)\[([0-9]+)\]|([0-9]+))(?:(?=/)|$)')
     groups = []         # probably don't need to save this here...
     def __init__(self, ndx, path, value):
